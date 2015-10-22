@@ -1,0 +1,27 @@
+{
+   "name": "giz",
+   "version": "0.1.0",
+   "description": "A bunch of auth functions, until further notice.",
+   "dependencies": {
+      "bcryptjs": "2.3.0",
+      "dale": "2.4.0",
+      "redis": "2.2.5",
+      "teishi": "3.1.2"
+   },
+   "main": "giz.js",
+   "author": "Federico Pereiro <fpereiro@gmail.com>",
+   "contributors": ["Federico Pereiro <fpereiro@gmail.com>"],
+   "license": [{
+      "type": "Public Domain",
+      "url": "http://github.com/fpereiro/giz#license"
+   }],
+   "keywords": ["auth", "login", "encryption"],
+   "repository" : {
+      "type": "git",
+      "url": "http://github.com/fpereiro/giz.git"
+   },
+   "bugs": {
+      "url": "http://github.com/fpereiro/giz/issues",
+      "email": "fpereiro@gmail.com"
+   }
+}
