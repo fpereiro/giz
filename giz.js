@@ -1,5 +1,5 @@
 /*
-giz - v0.1.0
+giz - v0.1.1
 
 Written by Federico Pereiro (fpereiro@gmail.com) and released into the public domain.
 
@@ -28,7 +28,7 @@ Please refer to readme.md to read the annotated source.
    giz.auth  = function (session, callback) {
       giz.db.get ('session', session, function (error, user) {
          if (error) return callback (error);
-         giz.db.hget ('user', user, '*', callback);
+         giz.db.hget ('users', user, '*', callback);
       });
    }
 
@@ -40,7 +40,7 @@ Please refer to readme.md to read the annotated source.
    // error, result. result is either falsy or the session.
    // allows for multiple sessions with a given user.
    giz.login = function (user, pass, callback) {
-      giz.db.hget ('user', user, 'pass', function (error, hash) {
+      giz.db.hget ('users', user, 'pass', function (error, hash) {
          if (error) return callback (error);
          if (hash === null) return callback ('User doesn\'t exist!');
          bcrypt.compare (pass, hash, function (error, result) {
@@ -57,14 +57,14 @@ Please refer to readme.md to read the annotated source.
 
    // error, result. error is the only thing that matters.
    giz.signup = function (user, pass, callback) {
-      giz.db.hget ('user', user, 'pass', function (error, hash) {
+      giz.db.hget ('users', user, 'pass', function (error, hash) {
          if (error) return callback (error);
          if (hash)  return callback ('User already exists!');
          bcrypt.genSalt (10, function (error, salt) {
             if (error) return callback (error);
             bcrypt.hash (pass, salt, function (error, hash) {
                if (error) return callback (error);
-               giz.db.hset ('user', user, 'pass', hash, callback);
+               giz.db.hset ('users', user, 'pass', hash, callback);
             });
          });
       });

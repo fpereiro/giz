@@ -1,6 +1,6 @@
 {
    "name": "giz",
-   "version": "0.1.0",
+   "version": "0.1.1",
    "description": "A bunch of auth functions, until further notice.",
    "dependencies": {
       "bcryptjs": "2.3.0",
@@ -15,7 +15,7 @@
       "type": "Public Domain",
       "url": "http://github.com/fpereiro/giz#license"
    }],
-   "keywords": ["auth", "login", "encryption"],
+   "keywords": ["auth", "login", "session", "encryption"],
    "repository" : {
       "type": "git",
       "url": "http://github.com/fpereiro/giz.git"
