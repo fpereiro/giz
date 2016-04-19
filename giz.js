@@ -1,5 +1,5 @@
 /*
-giz - v0.1.1
+giz - v0.2.0
 
 Written by Federico Pereiro (fpereiro@gmail.com) and released into the public domain.
 
@@ -20,15 +20,23 @@ Please refer to readme.md to read the annotated source.
    var giz = exports;
 
    giz.config = {
-      session: 60 * 60,
-      redis: []
+      expires: 60 * 60,
+      redis:  []
    }
 
    // error, result. result is either falsy or the user.
    giz.auth  = function (session, callback) {
       giz.db.get ('session', session, function (error, user) {
-         if (error) return callback (error);
-         giz.db.hget ('users', user, '*', callback);
+         if (error)         return callback (error);
+         if (user === null) return callback (null, null);
+         giz.db.set ('session', session, user, function (error) {
+            if (error)      return callback (error);
+            giz.db.hget ('users', user, '*', function (error, data) {
+               if (error) return callback (error);
+               data.id = user;
+               callback (null, data);
+            });
+         });
       });
    }
 
@@ -44,11 +52,11 @@ Please refer to readme.md to read the annotated source.
          if (error) return callback (error);
          if (hash === null) return callback ('User doesn\'t exist!');
          bcrypt.compare (pass, hash, function (error, result) {
-            if (error || ! result) return callback (error, result);
+            if (error || ! result) return callback (error || 'Invalid password!', result);
             bcrypt.genSalt (20, function (error, result) {
                if (error) return callback (error);
                giz.db.set ('session', result, user, function (error) {
-                  callback (error, error ? false : result);
+                  callback (error, result);
                });
             });
          });
@@ -70,6 +78,61 @@ Please refer to readme.md to read the annotated source.
       });
    }
 
+   // signup + login
+   giz.signlog = function (user, pass, callback) {
+      giz.signup (user, pass, function (error) {
+         if (error) return callback (error);
+         giz.login (user, pass, callback);
+      });
+   }
+
+   // create token to recover password
+   giz.recover = function (user, callback) {
+      giz.db.hget ('users', user, '*', function (error, User) {
+         if (error)         return callback (error);
+         if (User === null) return callback ('User doesn\'t exist!');
+         bcrypt.genSalt (20, function (error, token) {
+            token = token.replace (/\//g, '');
+            if (error) return callback (error);
+            bcrypt.genSalt (10, function (error, salt) {
+               if (error) return callback (error);
+               bcrypt.hash (token, salt, function (error, hash) {
+                  if (error) return callback (error);
+                  giz.db.set ('token', user, hash, function (error) {
+                     if (error) return callback (error);
+                     callback (null, token);
+                  });
+               });
+            });
+         });
+      });
+   }
+
+   // use token to set new password. if token is true, password is overwritten (for change password)
+   giz.reset = function (user, token, newPass, callback) {
+      var change = function () {
+         giz.db.delete ('token', user, function (error) {
+            if (error) return callback (error);
+            bcrypt.genSalt (10, function (error, salt) {
+               if (error) return callback (error);
+               bcrypt.hash (newPass, salt, function (error, hash) {
+                  if (error) return callback (error);
+                  giz.db.hset ('users', user, 'pass', hash, callback);
+               });
+            });
+         });
+      }
+      if (token === true) return change ();
+      giz.db.get ('token', user, function (error, hash) {
+         if (error) return callback (error);
+         if (hash === null) return callback ('No token found!');
+         bcrypt.compare (token, hash, function (error, result) {
+            if (error || ! result) return callback (error || 'Invalid token!', result);
+            change ();
+         });
+      });
+   }
+
    giz.db = {
       init: function () {
          if (! giz.redis) giz.redis = Redis.createClient.apply (Redis, giz.config.redis).on ('error', log);
@@ -85,8 +148,8 @@ Please refer to readme.md to read the annotated source.
       },
       set: function (entity, id, value, callback) {
          giz.db.init ();
-         if (entity === 'session') giz.redis.setex (entity + ':' + id, giz.config.session, value, callback);
-         else                      giz.redis.set   (entity + ':' + id, value, callback);
+         if (entity === 'session' || entity === 'token') giz.redis.setex (entity + ':' + id, giz.config.expires, value, callback);
+         else                                            giz.redis.set   (entity + ':' + id, value, callback);
       },
       hset: function (entity, id, field, value, callback) {
          giz.db.init ();
@@ -95,7 +158,7 @@ Please refer to readme.md to read the annotated source.
       delete: function (entity, value, callback) {
          giz.db.init ();
          giz.redis.del (entity + ':' + value, callback);
-      },
+      }
    }
 
 }) ();

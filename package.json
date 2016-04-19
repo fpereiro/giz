@@ -4,9 +4,9 @@
    "description": "A bunch of auth functions, until further notice.",
    "dependencies": {
       "bcryptjs": "2.3.0",
-      "dale": "2.4.0",
-      "redis": "2.2.5",
-      "teishi": "3.1.2"
+      "dale": "3.1.0",
+      "redis": "2.6.0-0",
+      "teishi": "3.1.5"
    },
    "main": "giz.js",
    "author": "Federico Pereiro <fpereiro@gmail.com>",
