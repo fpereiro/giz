@@ -1,5 +1,5 @@
 /*
-giz - v0.2.0
+giz - v0.3.0
 
 Written by Federico Pereiro (fpereiro@gmail.com) and released into the public domain.
 
@@ -131,6 +131,10 @@ Please refer to readme.md to read the annotated source.
             change ();
          });
       });
+   }
+
+   giz.destroy = function (user, callback) {
+      giz.db.delete ('users', user, callback);
    }
 
    giz.db = {

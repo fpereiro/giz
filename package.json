@@ -1,12 +1,12 @@
 {
    "name": "giz",
-   "version": "0.2.0",
-   "description": "A bunch of auth functions, until further notice.",
+   "version": "0.3.0",
+   "description": "A bunch of auth functions for web applications.",
    "dependencies": {
-      "bcryptjs": "2.3.0",
-      "dale": "3.1.0",
-      "redis": "2.6.0-0",
-      "teishi": "3.1.5"
+      "bcryptjs": "2.4.3",
+      "dale": "4.3.0",
+      "redis": "2.7.1",
+      "teishi": "3.11.0"
    },
    "main": "giz.js",
    "author": "Federico Pereiro <fpereiro@gmail.com>",
