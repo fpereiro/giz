@@ -6,7 +6,9 @@ giz is a bunch of auth functions for web applications.
 
 ## Current status of the project
 
-The current version of giz, v0.3.0, is considered to be *somewhat stable* and *somewhat complete*. [Suggestions](https://github.com/fpereiro/giz/issues) and [patches](https://github.com/fpereiro/giz/pulls) are welcome. There are no future changes planned, but some are to be expected.
+The current version of giz, v0.3.0, is considered to be *somewhat stable* and *somewhat complete*. [Suggestions](https://github.com/fpereiro/giz/issues) and [patches](https://github.com/fpereiro/giz/pulls) are welcome. Future changes planned are:
+
+- Add annotated source code.
 
 ## Installation
 
@@ -48,6 +50,8 @@ If you want to avoid using redis altogether (or doing it in your own way), you n
 ## Source code
 
 The complete source code is contained in `giz.js`. It is about 170 lines long.
+
+Annotated source code will be forthcoming when the library stabilizes.
 
 ## License
 
