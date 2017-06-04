@@ -15,7 +15,7 @@ The current version of giz, v0.3.0, is considered to be *somewhat stable* and *s
 The dependencies of giz are two:
 
 - [bcryptjs](https://github.com/dcodeio/bcrypt.js), which is used to hash passwords and password recovery tokens.
-- [redis](https://github.com/NodeRedis/node_redis), which is used as the main datastore.
+- [redis](https://github.com/NodeRedis/node_redis), which is used as the default datastore.
 
 To install, type `npm i giz`.
 
