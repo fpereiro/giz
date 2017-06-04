@@ -11,11 +11,7 @@ Please refer to readme.md to read the annotated source (but not yet!).
    // *** SETUP ***
 
    var bcrypt = require ('bcryptjs');
-   var dale   = require ('dale');
    var Redis  = require ('redis');
-   var teishi = require ('teishi');
-
-   var log    = teishi.l;
 
    var giz = exports;
 
@@ -108,7 +104,7 @@ Please refer to readme.md to read the annotated source (but not yet!).
       });
    }
 
-   // use token to set new password. if token is true, password is overwritten (for change password)
+   // use token to set new password. if token is true, password is overwritten
    giz.reset = function (user, token, newPass, callback) {
       var change = function () {
          giz.db.delete ('token', user, function (error) {
@@ -133,6 +129,7 @@ Please refer to readme.md to read the annotated source (but not yet!).
       });
    }
 
+   // destroy user account
    giz.destroy = function (user, callback) {
       giz.db.delete ('users', user, callback);
    }

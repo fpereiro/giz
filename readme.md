@@ -12,12 +12,10 @@ The current version of giz, v0.3.0, is considered to be *somewhat stable* and *s
 
 ## Installation
 
-The dependencies of giz are four:
+The dependencies of giz are two:
 
-- [dale](https://github.com/fpereiro/dale)
 - [bcryptjs](https://github.com/dcodeio/bcrypt.js), which is used to hash passwords and password recovery tokens.
 - [redis](https://github.com/NodeRedis/node_redis), which is used as the main datastore.
-- [teishi](https://github.com/fpereiro/teishi)
 
 To install, type `npm i giz`.
 
