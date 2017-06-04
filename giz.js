@@ -3,7 +3,7 @@ giz - v0.3.0
 
 Written by Federico Pereiro (fpereiro@gmail.com) and released into the public domain.
 
-Please refer to readme.md to read the annotated source.
+Please refer to readme.md to read the annotated source (but not yet!).
 */
 
 (function () {
