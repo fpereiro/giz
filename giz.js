@@ -1,5 +1,5 @@
 /*
-giz - v0.3.0
+giz - v0.3.1
 
 Written by Federico Pereiro (fpereiro@gmail.com) and released into the public domain.
 
@@ -29,6 +29,7 @@ Please refer to readme.md to read the annotated source (but not yet!).
             if (error)      return callback (error);
             giz.db.hget ('users', user, '*', function (error, data) {
                if (error) return callback (error);
+               if (! data) return callback ('User not found');
                data.id = user;
                callback (null, data);
             });
@@ -104,7 +105,7 @@ Please refer to readme.md to read the annotated source (but not yet!).
       });
    }
 
-   // use token to set new password. if token is true, password is overwritten
+   // use token to set new password. if token is true, password is overwritten (this is for server-condoned overwrites of password)
    giz.reset = function (user, token, newPass, callback) {
       var change = function () {
          giz.db.delete ('token', user, function (error) {
@@ -136,7 +137,7 @@ Please refer to readme.md to read the annotated source (but not yet!).
 
    giz.db = {
       init: function () {
-         if (! giz.redis) giz.redis = Redis.createClient.apply (Redis, giz.config.redis).on ('error', log);
+         if (! giz.redis) giz.redis = Redis.createClient.apply (Redis, giz.config.redis).on ('error', console.log);
       },
       get: function (entity, id, callback) {
          giz.db.init ();

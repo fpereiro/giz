@@ -6,7 +6,7 @@ giz is a bunch of auth functions for web applications.
 
 ## Current status of the project
 
-The current version of giz, v0.3.0, is considered to be *somewhat stable* and *somewhat complete*. [Suggestions](https://github.com/fpereiro/giz/issues) and [patches](https://github.com/fpereiro/giz/pulls) are welcome. Future changes planned are:
+The current version of giz, v0.3.1, is considered to be *somewhat stable* and *somewhat complete*. [Suggestions](https://github.com/fpereiro/giz/issues) and [patches](https://github.com/fpereiro/giz/pulls) are welcome. Future changes planned are:
 
 - Add annotated source code.
 
@@ -35,6 +35,8 @@ giz should work with any version of node. However, if you use the default db (re
 - `giz.destroy`: takes an user and a callback. Deletes the user.
 
 ### Config & using a different db
+
+The keys used by giz are: `users:ID`, `session:ID` and `token:ID` (for changing password). First is hash, other two are strings. First one only is `{password: PASSEQUIVALENT}`.
 
 `giz.config` is an object that accepts the following keys:
 
